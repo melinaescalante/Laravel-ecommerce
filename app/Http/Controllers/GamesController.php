@@ -74,7 +74,7 @@ class GamesController extends Controller
     {
         return view('games.edit-form', [
             'ratings' => Rating::all(),
-            'genres' => Genre::all(),
+            'genres' => Genre::orderBy('name')->get(),
             'game' => Game::findOrFail($id),
         ]);
     }
@@ -93,12 +93,16 @@ class GamesController extends Controller
         $input = $request->except(['_token', '_method']);
         $game = Game::findOrFail($id);
         $old_cover = $game->cover;
-        // dd($request->cover_description);
-        $old_cover_description = $game->cover_description;
+     
+        // $old_cover_description = $game->cover_description;
         if ($request->hasFile('cover')) {
-            $input['cover'] = $request->file('cover')->store('covers', 'public');
-            Storage::disk('public')->delete($old_cover);
+            $input['cover'] = $request->file('cover')->store('/covers', 'public');
+            if (isset($old_cover)) {
+                # code...
+                Storage::disk('public')->delete($old_cover);
+            }
         }
+       
         $game->update($input);
         $game->genres()->sync($request->input('genre_id'));
         return redirect()
