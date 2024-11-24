@@ -1,0 +1,9 @@
+Carrera: Diseño y Programación Web
+Materia: Portales y Comercio Electrónico
+Cuatrimestre: 4°
+Año: 2024
+Turno: Mañana
+Comisión: DWM4AP
+Apellido y nombre: Melina Escalante
+Docente: Carlos Ferrer
+Carácter de entrega:1er parcial.

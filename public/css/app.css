@@ -1,0 +1,31 @@
+.boton{
+    background-color: darkcyan !important;
+    color:white !important;
+    font-weight: 600 !important;
+    border-radius: 5px;
+    padding: 8px 15px;
+    text-decoration: none;
+    border: 0;
+    
+}
+.margin{
+    margin-bottom: 200px;
+}
+*{
+    box-sizing: content-box;
+}
+.link{
+    text-decoration: none;
+    font-weight: 500;
+    color: darkcyan;
+}
+.active{
+    font-weight: 500!important;
+    color: darkcyan !important;
+}
+.background{
+    background-color: rgba(0, 139, 139, 0.109) !important;
+}
+.title{
+    font-size: 1.3rem;
+}
