@@ -16,6 +16,11 @@
             @else
                 <p>No hay portada</p>
             @endif
+            @if ($game->cover_description)
+                <p class="fst-italic">{{$game->cover_description}}</p>
+            @else
+                <p class="fst-italic">Sin descripción</p>
+            @endif
             <dl class="mb-5">
                 <dt>Precio</dt>
                 <dd class="mb-3">

@@ -50,7 +50,7 @@
                         @if ($game->cover !== null)
                             <label for="cover" class="form-label">Portada Actual:</label>
                             <div class="col-3">
-                                <img src="{{ Storage::url($game->cover) }}" alt="{{ $game->cover_description }}"
+                                <img src="{{ Storage::url($game->cover) }}" alt="{{ $game->cover}}"
                                     class="img-fluid">
                             </div>
 
