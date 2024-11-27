@@ -39,7 +39,7 @@
                                             @if ($user->gamesPurchased->isNotEmpty())
                                             
                                             @foreach ($user->gamesPurchased as $purchase)
-                                            <div>
+                                            <div class="border-bottom" style="border-color:darkcyan!important">
                                                 
                                             <p class="bagde-secondary">
                                                 <strong>Id de compra: </strong>{{$purchase->pivot->purchase_id}}</p>

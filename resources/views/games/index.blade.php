@@ -118,7 +118,7 @@
                                                 @endauth
                                                 @guest
                                                     <a href="{{ route('games.view', ['id' => $game->id_game]) }}"
-                                                        class="boton">Comprar</a>
+                                                        class="boton">Ver</a>
                                                 @endguest
                                             </td>
                                         </tr>
