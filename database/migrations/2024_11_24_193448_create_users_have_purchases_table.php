@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('users_have_purchases', function (Blueprint $table) {
             $table->smallIncrements('purchase_id');
-            $table->foreignId('user_fk')->constrained(table: 'users', column: 'id');
-            $table->foreignId('game_fk')->constrained(table: 'games', column: 'id_game');
+            $table->integer('user_id');
+            $table->json('games');
+            $table->text('status');
+            $table->dateTime("release_date");
+
             $table->float('amount');
             $table->timestamps();
         });

@@ -22,4 +22,8 @@ class HomeController extends Controller
     {
         return view('users');
     }
+    public function cart()
+    {
+        return view('cart.index');
+    }
 }

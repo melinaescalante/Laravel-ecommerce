@@ -180,10 +180,8 @@ class GameSeeder extends Seeder
             ['game_fk' => 10, 'genre_fk' => 1]
         ]);
         DB::table('users_have_purchases')->insert([
-            ['user_fk' => 1, 'game_fk' => 1, 'amount' => 59000],
-            ['user_fk' => 1, 'game_fk' => 1, 'amount' => 59000],
-            ['user_fk' => 1, 'game_fk' => 1, 'amount' => 59000],
-            ['user_fk' => 3, 'game_fk' => 2, 'amount' => 20000],
+            ['user_id' => 1, 'games' => json_encode([1]),'status'=>'pendiente','release_date'=>'2024-12-20', 'amount' => 59000],
+            
         ]);
 
         // DB::table('users_have_purchases')->truncate();

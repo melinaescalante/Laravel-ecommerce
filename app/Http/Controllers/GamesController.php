@@ -35,6 +35,17 @@ class GamesController extends Controller
         $game = Game::find($id);
         return view('games.view', ['game' => $game]);
     }
+    public function addCart(Request $request)
+    {
+    
+        $input = $request->id;
+        $order = Game::create($input);
+
+        return to_route('games')->with('feedback', [
+            'message' => 'El juego se añadido correctamente.',
+            'alert' => 'success',
+        ]);
+    }
 
     public function createForm()
     {
@@ -42,7 +53,7 @@ class GamesController extends Controller
     }
     public function createProcess(Request $request)
     {
-        // dd($request->input('genre_id'));
+     
         $request->validate(
             [
                 'title' => 'required|min:3|max:255',

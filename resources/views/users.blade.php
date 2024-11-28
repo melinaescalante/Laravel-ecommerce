@@ -36,22 +36,9 @@
                                         <td class="align-top">{{ $user->name }}</td>
                                         <td class="align-top">{{ $user->email }}</td>
                                         <td class="align-top">
-                                            @if ($user->gamesPurchased->isNotEmpty())
-                                            
-                                            @foreach ($user->gamesPurchased as $purchase)
-                                            <div class="border-bottom" style="border-color:darkcyan!important">
-                                                
-                                            <p class="bagde-secondary">
-                                                <strong>Id de compra: </strong>{{$purchase->pivot->purchase_id}}</p>
-                                            <p class="bagde-secondary">
-                                                        <strong>Nombre del juego: </strong>{{$purchase->title}} </p>
-                                            <p class="bagde-secondary">
-                                                            <strong>Monto del juego: $</strong>{{$purchase->pivot->amount}}</p>
-                                            </div>
-                                            @endforeach
-                                            @else
-                                            <p>Sin compras aún</p>
-                                            @endif
+                                           
+
+                                                {{$users}}
                                         </td>
                                         <td class="mt-2 mb-2">
 

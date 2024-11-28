@@ -28,10 +28,10 @@ class Game extends Model
     {
         return asset('storage/' . $this->cover);
     }
-    public function users()
-{
-    return $this->belongsToMany(User::class, 'users_have_purchases', 'game_fk', 'user_fk')
-                ->withPivot('amount');
-}
+//     public function users()
+// {
+//     return $this->belongsToMany(User::class, 'users_have_purchases', 'game_fk', 'user_fk')
+//                 ->withPivot('amount');
+// }
 
 }
