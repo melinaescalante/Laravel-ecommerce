@@ -91,8 +91,6 @@
                                                 @if (auth()->user()->email === 'meliescalantee@gmail.com')
                                                     <div class="d-flex justify-content-around">
 
-                                                        <a href="{{ route('games.view', ['id' => $game->id_game]) }}"
-                                                            class="boton">Ver</a>
                                                         <a href="{{ route('games.edit.form', ['id' => $game->id_game]) }}"
                                                             class="btn btn-warning">Editar</a>
                                                         <form action="{{ route('games.delete.process', ['id' => $game->id_game]) }}"
@@ -113,6 +111,7 @@
                                                     </div>
                                                 @else
                                                     <form action="{{ route('games.add.cart', ['id' => $game->id_game]) }}"
+                                                    
                                                         method="post">
                                                         @csrf
                                                         <button type="submit" class="btn btn-success">Añadir a carrito</button>

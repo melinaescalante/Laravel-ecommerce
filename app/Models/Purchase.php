@@ -16,9 +16,5 @@ class Purchase extends Model
     {
         return ['release_date' => 'date'];
     }
-    //     public function gamesPurchased()
-    // {
-    //     var_dump()
-    //     return Purchase::all();
-    // }
+
 }

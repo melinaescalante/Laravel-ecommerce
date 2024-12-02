@@ -78,7 +78,7 @@ Route::get('/test/emails/reservar-juego', [\App\Http\Controllers\GamesReservatio
 ->middleware('auth');
 
 //Rutas de carrito
-Route::post('/juego/{id}/añadir-a-carrito', [\App\Http\Controllers\GamesReservationController::class,"addCart"])
+Route::post('/juego/{id}/agregar-a-carrito', [\App\Http\Controllers\PurchaseController::class,"addCart"])
 ->name('games.add.cart')
 ->middleware('auth');
 

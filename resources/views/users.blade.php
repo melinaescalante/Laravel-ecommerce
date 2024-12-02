@@ -36,9 +36,16 @@
                                         <td class="align-top">{{ $user->name }}</td>
                                         <td class="align-top">{{ $user->email }}</td>
                                         <td class="align-top">
-                                           
+                                            @if (!empty($user->purchase_id))
 
-                                                {{$users}}
+                                            <div>
+                                                <p>Orden: # {{$user->purchase_id}}</p>
+                                                
+                                                <p>Juegos: {{$user->games}}</p>
+                                                <p>Monto: {{$user->amount}}</p>
+                                                <p>Estado: {{$user->status}}</p>
+                                            </div>
+                                            @endif
                                         </td>
                                         <td class="mt-2 mb-2">
 
