@@ -26,8 +26,18 @@ class UserController extends Controller
     {
         $userAuth = auth()->id();
         $userData = User::findOrFail($userAuth);
+        $userWithPurchases = DB::table('users')
+            ->leftJoin('users_have_purchases', 'users.id', '=', 'users_have_purchases.user_id')
+            ->select('users.*', 'users_have_purchases.*')
+            ->where('users.id', '=',$userAuth) 
+
+            ->get();
+            echo '<pre>';
+            var_dump($userWithPurchases);
+            echo '</pre>';
         return view('auth.profile', [
             'userData' => $userData,
+            'purchases'=>$userWithPurchases
         ]);
     }
     public function editProcessEmail(Request $request)
