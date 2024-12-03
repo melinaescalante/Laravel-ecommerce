@@ -82,8 +82,8 @@ Route::post('/juego/{id}/agregar-a-carrito', [\App\Http\Controllers\PurchaseCont
 ->name('games.add.cart')
 ->middleware('auth');
 
-Route::get('/carrito', [\App\Http\Controllers\HomeController::class,"cart"])
-->name('cart')
+Route::get('/carrito', [\App\Http\Controllers\PurchaseController::class,"viewCart"])
+->name('cart.index')
 ->middleware('auth');
 ;
 

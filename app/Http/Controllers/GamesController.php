@@ -105,7 +105,6 @@ class GamesController extends Controller
         $game = Game::findOrFail($id);
         $old_cover = $game->cover;
      
-        // $old_cover_description = $game->cover_description;
         if ($request->hasFile('cover')) {
             $input['cover'] = $request->file('cover')->store('/covers', 'public');
             if (isset($old_cover)) {
