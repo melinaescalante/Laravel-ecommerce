@@ -48,7 +48,7 @@
                                         <button class="btn btn-outline-success">Añadir unidad</button>
                                     </form>
                                     <form action="{{ route('games.remove.from.cart', ['id' => $item['game']->id_game]) }}"
-                                    
+
                                         method="post">
                                         @csrf
                                         <button class="btn btn-outline-danger">Eliminar unidad</button>
@@ -72,7 +72,8 @@
             </table>
 
         </div>
-        <button class="btn boton mt-3 " style="width:100%">Ir a pagar</button>
+        <a class="btn boton mt-3 " href="{{route('test.mercadopago.show.v2')}}" style="width:100%">Ir a pagar</a>
+       
 
     </div>
 </div>

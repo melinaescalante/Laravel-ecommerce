@@ -116,24 +116,9 @@ class PurchaseController extends Controller
                     'total_price' => $game->price * $quantity,
                 ];
             });
-            // var_dump($gameIds);
-            // echo '<pre>';
-
-            // var_dump($gamesGrouped);
-            // echo '</pre>';
-            // echo '<pre>';
-
-            // var_dump($gamesGroupedArray);
-            // echo '</pre>';
-            // echo '<pre>';
-
-            // var_dump($games);
-            // echo '</pre>';
+     
         }
-        // return view('cart', ['gamesWithQuantities' => []]);
-        // $games = Game::findMany(json_decode($purchasePendant->games));
-        // var_dump($purchasePendant);
-
+     
 
         return view('cart.index', [
             'purchasePendant' => $purchasePendant,

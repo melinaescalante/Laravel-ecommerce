@@ -24,6 +24,7 @@
                     @auth
                         @if (auth()->user()->email === 'meliescalantee@gmail.com')
                             <x-navlink route="users">Usuarios</x-navlink>
+                            <x-navlink route="users">Dashboard</x-navlink>
 
 
                         @endif

@@ -4,10 +4,11 @@
 
 @section('content')
 
+<x-nav></x-nav>
 <div class="container">
-    <div class="row">
+    <div class="row margin">
         <div class="col-12">
-            <h2 class="mb-3">Prueba de Integración con Mercado Pago</h2>
+            <h2 class="mb-3 mt-4">Prueba de Integración con Mercado Pago</h2>
             <table class="table table-bordered table-striped mb-3">
                 <thead>
                     <tr>

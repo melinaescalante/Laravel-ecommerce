@@ -37,14 +37,44 @@
         @if (!empty($purchases))
             <h2 class="mx-auto">Mis compras</h2>
             <div class="d-flex flex-wrap gap-2">
-
                 @foreach ($purchases as $purchase)
-                    <div class="card p-2" style="width: 25rem;">
-                        <p class="fs-5">Orden #{{$purchase->purchase_id}}</p>
-                        <p>Fecha de emisión: {{$purchase->release_date}}</p>
-                        <p>Estado: {{$purchase->status}}</p>
+                    <div class="card " style="width: 25rem;">
+                        <div class="card-header">
+                            Orden de compra: <strong>
+
+                                #{{ $purchase["purchase"]->purchase_id}}
+                            </strong>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                Fecha de emisión: {{ $purchase['purchase']->release_date }}
+                            </li>
+                            <li class="list-group-item">
+                                Estado: {{ $purchase['purchase']->status }}
+                            </li>
+                            <li class="list-group-item">
+
+                                Juegos:
+                                <ul>
+                                    @foreach ($purchase['games'] as $game)
+                                        <li>
+
+                                            <strong>{{$game["game"]["title"] 
+                                                                                                                    }}</strong> *
+                                            {{$game["quantity"]}}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                            <li class="list-group-item fs-5">
+                                Monto final: {{$purchase['purchase']->amount}}
+                            </li>
+
+
+
                     </div>
                 @endforeach
+                </ul>
             </div>
         @else
             <p>sin compras</p>
