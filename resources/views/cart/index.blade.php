@@ -5,51 +5,75 @@
 @section('content')
 
 <x-nav></x-nav>
-<div class="container-fluid">
+<div class="container">
 
     <div class="row margin">
-        <div class="col-12">
 
-            <h2 class="text-center mt-4">Carrito de compras</h2>
-            <div class="container">
-                <div style="overflow-x:auto;">
-                    <table class="table-bordered table-striped table ">
-                        <thead>
-                            <tr>
-                                <th>Número de compra</th>
-                                <th>Juegos</th>
-                              
-                                <th>Monto</th>
-                            </tr>
-                            <tr>
-                                <td class="align-top">{{ $purchasePendant->purchase_id }}</td>
+        <h2 class="text-center mt-4">Carrito de compras</h2>
+        <h3>Número de orden: {{ $purchasePendant->purchase_id }}</h3>
+        <p class="fs-6 fw-bold mb-4">Detalle de Orden</p>
+        <div style="overflow-x:auto;" class="mx-auto d-flex flex-column align-items-center">
+            <table class="table-auto border-collapse mx-auto">
+                <thead>
+                    <tr class="border">
+                        <!-- <th></th> -->
+                        <th class="border  px-4 py-2 text-left">Producto</th>
+                        <th class="border px-4 py-2 text-center">Cantidad</th>
+                        <th class="border  px-4 py-2 text-center">Precio Unitario</th>
+                        <th class="border px-4 py-2 text-center">Subtotal</th>
+                        <th class="border  px-4 py-2 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($gamesWithQuantities as $item)
+                        <tr>
+                            <td class="border  px-4 py-2">
+                                <div class="gap-3 d-flex flex-sm-column flex-lg-row align-items-center flex-wrap">
 
-                                <td class="align-top">
+                                    <img height="50vh" width="50vh" src="{{$item['game']->getImage()}}"
+                                        alt="{{$item['game']->title}}">
+                                    <p><strong>{{$item['game']->title}}</strong></p>
+                                </div>
+                            </td>
+                            <td class="border  px-4 py-2 text-center"> {{$item['quantity']}}</td>
+                            <td class="border  px-4 py-2 text-center">{{$item['game']->price}}</td>
+                            <td class="border px-4 py-2 text-center">
+                                ${{$item['game']->price * $item['quantity']}}
+                            </td>
+                            <td class="border  px-4 py-2 text-center">
+                                <div class="d-flex gap-1  flex-wrap">
+                                    <form action="{{ route('games.add.cart', ['id' => $item['game']->id_game]) }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="source_page" value="cart">
+                                        <button class="btn btn-outline-success">Añadir unidad</button>
+                                    </form>
+                                    <form action="{{ route('games.remove.from.cart', ['id' => $item['game']->id_game]) }}"
+                                    
+                                        method="post">
+                                        @csrf
+                                        <button class="btn btn-outline-danger">Eliminar unidad</button>
+                                    </form>
+                                </div>
 
-                                    @foreach ($gamesWithQuantities as $gameArray )
-                              
-                                            <div class="d-flex flex-wrap gap-3 align-items-center mb-2 justify-content-bettwen">
-                                                <img class="" height="15%" width="15%" src="{{$gameArray['game']->getImage()}}" alt="Portada de juego{{$gameArray['game']->title}}">
-                                                <p>{{$gameArray['game']->title}}</p>
-                                        
-                                                
-                                                
-                                                
-                                  
-                                            </div>
-                                            @endforeach
-                            
-                                </td>
-                                
-                                <td class="align-top">${{$purchasePendant->amount}}</td>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+                            </td>
 
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr class="fs-5 border">
+                        <td colspan="4" class="text-end fw-bold py-2">Total:</td>
+                        <td class="text-center fw-bold text-success">
+                            ${{ $purchasePendant->amount }}
+                        </td>
+                    </tr>
+                </tfoot>
 
-            </div>
+            </table>
+
         </div>
+        <button class="btn boton mt-3 " style="width:100%">Ir a pagar</button>
+
     </div>
 </div>
 

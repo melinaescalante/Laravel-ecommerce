@@ -128,7 +128,7 @@ class GamesController extends Controller
         $game->genres()->detach();
         $game->delete();
         return redirect()
-            ->route('games')
+            ->route('cart.index')
             ->with('feedback', [
                 'message' => 'El juego <b> ' . e($game->title) . ' </b> se borró correctamente.',
                 'alert' => 'success',

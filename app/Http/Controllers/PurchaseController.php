@@ -18,9 +18,9 @@ class PurchaseController extends Controller
     public function addCart(int $id, Request $request)
     {
         $userId = auth()->id();
+        $sourcePage = $request->input('source_page');
         $gamesEncode = [];
         $newGames = [];
-        echo '<pre>';
         $game = Game::findOrFail($id);
         if ($userId) {
             $purchasePendant = Purchase::where('user_id', '=', $userId)
@@ -28,7 +28,6 @@ class PurchaseController extends Controller
             $newGames = json_decode($purchasePendant->games);
             array_push($newGames, $id);
             $gamesEncode = json_encode($newGames);
-            // var_dump($newGames);
             $purchasePendant->update([
                 'games' => json_encode($newGames),
                 'amount' => $purchasePendant->amount + $game->price,
@@ -37,22 +36,60 @@ class PurchaseController extends Controller
 
             $purchaseData = [
                 'user_id' => auth()->id(),
-                'status' => 'pendiente',    // Estado por defecto
+                'status' => 'pendiente',
                 'amount' => $game->price,
                 'release_date' => now(),
                 'games' => $gamesEncode ? $gamesEncode : json_encode([$id])
             ];
             $purchase = Purchase::create($purchaseData);
         }
-        // echo '<pre>';
+        if ($sourcePage === 'cart') {
+            return redirect()
+                ->route('cart.index')
+                ->with('feedback', [
+                    'message' => 'El juego se agregó correctamente al carrito.',
+                    'alert' => 'success',
+                ]);
+        } elseif ($sourcePage === 'games') {
+            return redirect()
+                ->route('games')
+                ->with('feedback', [
+                    'message' => 'El juego se agregó correctamente al carrito desde la página principal.',
+                    'alert' => 'success',
+                ]);
+        }
+    }
+    public function removeFromCart(int $id, Request $request)
+    {
+        $userId = auth()->id();
+        $game = Game::findOrFail($id);
+        $gamesEncode = [];
+        if ($userId) {
+            $purchasePendant = Purchase::where('user_id', '=', $userId)
+                ->where('status', '=', 'pendiente')->firstOrFail();
+            $gamesCurrent = json_decode($purchasePendant->games, true);
+            if (count($gamesCurrent) > 1) {
 
+                $foundGame = array_search($id, $gamesCurrent);
+                if ($foundGame !== false) {
+                    unset($gamesCurrent[$foundGame]);
+                }
+                $gamesEncode = json_encode($gamesCurrent);
+            } else {
+                $gamesEncode = [];
+            }
+            $purchasePendant->update([
+                'games' => $gamesEncode,
+                'amount' => $purchasePendant->amount - $game->price,
+            ]);
+        }
         return redirect()
-            ->route('games')
+            ->route('cart.index')
             ->with('feedback', [
-                'message' => 'El juego se agregó correctamente al carrito.',
-
+                'message' => 'El juego se eliminó correctamente del carrito.',
                 'alert' => 'success',
             ]);
+
     }
     public function viewCart()
     {
@@ -64,13 +101,13 @@ class PurchaseController extends Controller
 
             $gamesGrouped = collect($gameIds)->countBy();
 
-            
+
             $gamesGroupedArray = $gamesGrouped->toArray();
             $games = Game::whereIn('id_game', array_keys($gamesGroupedArray))
-            
-            ->get();
 
-   
+                ->get();
+
+
             $gamesWithQuantities = $games->map(function ($game) use ($gamesGroupedArray) {
                 $quantity = $gamesGroupedArray[$game->id_game];
                 return [
@@ -79,32 +116,30 @@ class PurchaseController extends Controller
                     'total_price' => $game->price * $quantity,
                 ];
             });
-            var_dump($gameIds);
-            echo '<pre>';
+            // var_dump($gameIds);
+            // echo '<pre>';
 
-            var_dump($gamesGrouped);
-            echo '</pre>';
-            echo '<pre>';
+            // var_dump($gamesGrouped);
+            // echo '</pre>';
+            // echo '<pre>';
 
-            var_dump($gamesGroupedArray);
-            echo '</pre>';
-            echo '<pre>';
+            // var_dump($gamesGroupedArray);
+            // echo '</pre>';
+            // echo '<pre>';
 
-            var_dump($games);
-            echo '</pre>';
+            // var_dump($games);
+            // echo '</pre>';
         }
-            // return view('cart', ['gamesWithQuantities' => []]);
-            // $games = Game::findMany(json_decode($purchasePendant->games));
-            // var_dump($purchasePendant);
-            echo '<pre>';
-            echo '</pre>';
-            
+        // return view('cart', ['gamesWithQuantities' => []]);
+        // $games = Game::findMany(json_decode($purchasePendant->games));
+        // var_dump($purchasePendant);
 
-            return view('cart.index', [
-                'purchasePendant' => $purchasePendant,
-                'games' => $games,
-                'gamesWithQuantities' => $gamesWithQuantities
-                
-            ]);
+
+        return view('cart.index', [
+            'purchasePendant' => $purchasePendant,
+            'games' => $games,
+            'gamesWithQuantities' => $gamesWithQuantities
+
+        ]);
     }
 }

@@ -13,7 +13,24 @@ Route::get('/blogs', [\App\Http\Controllers\BlogController::class,"index"])
 Route::get('/usuarios', [\App\Http\Controllers\UserController::class,"index"])
 ->name('users')
 ->middleware('auth');
-;
+
+Route::post('/usuario/editar-nombre', [\App\Http\Controllers\UserController::class,"editProcessName"])
+->name('user.edit.name.process')
+->middleware('auth');
+
+
+Route::get('/usuario/editar-nombre', [\App\Http\Controllers\UserController::class,"editNameForm"])
+->name('user.edit.form.name')
+->middleware('auth');
+
+Route::get('/usuario/editar-email', [\App\Http\Controllers\UserController::class,"editForm"])
+->name('user.edit.form')
+->middleware('auth');
+
+Route::post('/usuario/editar-email', [\App\Http\Controllers\UserController::class,"editProcessEmail"])
+->name('user.edit.process')
+->middleware('auth');
+
 
 Route::get('juegos/disponibles', [\App\Http\Controllers\GamesController::class,"index"])
 ->name('games');
@@ -54,6 +71,9 @@ Route::delete('juegos/{id}/eliminar', [\App\Http\Controllers\GamesController::cl
 Route::post('juegos/crear', [\App\Http\Controllers\GamesController::class,"createProcess"])
 ->name('games.create.process')
 ->middleware('auth');
+Route::get('/mi-perfil', [\App\Http\Controllers\UserController::class,"profile"])
+->name('profile')
+->middleware('auth');
 
 //Ruta de autenticación
 Route::get('/iniciar-sesion', [\App\Http\Controllers\AuthController::class,"loginForm"])
@@ -80,6 +100,10 @@ Route::get('/test/emails/reservar-juego', [\App\Http\Controllers\GamesReservatio
 //Rutas de carrito
 Route::post('/juego/{id}/agregar-a-carrito', [\App\Http\Controllers\PurchaseController::class,"addCart"])
 ->name('games.add.cart')
+->middleware('auth');
+
+Route::post('/juego/{id}/restar-a-carrito', [\App\Http\Controllers\PurchaseController::class,"removeFromCart"])
+->name('games.remove.from.cart')
 ->middleware('auth');
 
 Route::get('/carrito', [\App\Http\Controllers\PurchaseController::class,"viewCart"])

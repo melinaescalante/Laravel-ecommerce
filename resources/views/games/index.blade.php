@@ -111,9 +111,10 @@
                                                     </div>
                                                 @else
                                                     <form action="{{ route('games.add.cart', ['id' => $game->id_game]) }}"
-                                                    
                                                         method="post">
                                                         @csrf
+                                                        <input type="hidden" name="source_page" value="games">
+
                                                         <button type="submit" class="btn btn-success">Añadir a carrito</button>
                                                     </form>
                                                 @endif
