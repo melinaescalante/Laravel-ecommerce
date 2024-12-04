@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Purchase;
 use App\Payment\MercadoPagoPayment;
 
 use MercadoPago\Client\Preference\PreferenceClient;
@@ -12,24 +13,27 @@ use Illuminate\Http\Request;
 
 class MercadoPagoController extends Controller
 {
-    public function showV2()
+    public function showV2(Request $request)
     {
-
-
-        // Buscamos un par de películas simulando un carrito de compras. Esto es lo que vamos
-        // para "cobrar" con Mercado Pago.
+        $gamesArray = [];
+        $gamestry = $request->input('items');
+        $purchase = $request->input('purchase');
+        $gamestry = json_decode($gamestry);
+        $purchase = json_decode($purchase);
+        foreach ($gamestry as $game) {
+            array_push($gamesArray, $game);
+        }
         $games = Game::whereIn('id_game', [1, 3])->get();
-
         // Integración con Mercado Pago.
         // Preparamos un array con los datos de los ítems con el formato que pide Mercado Pago.
         $items = [];
 
-        foreach ($games as $game) {
+        foreach ($gamesArray as $game) {
             $items[] = [
-                'id' => $game->id_game,
-                'title' => $game->title,
-                'unit_price' => $game->price,
-                'quantity' => 1,
+                'id' => $game->game->id_game,
+                'title' => $game->game->title,
+                'unit_price' => $game->game->price,
+                'quantity' => $game->quantity,
             ];
         }
 
@@ -37,9 +41,9 @@ class MercadoPagoController extends Controller
             $payment = new MercadoPagoPayment;
             $payment->setItems($items);
             $payment->setBackUrls(
-                success: route('test.mercadopago.successProcess'),
-                pending: route('test.mercadopago.pendingProcess'),
-                failure: route('test.mercadopago.failureProcess'),
+                success: route('test.mercadopago.successProcess',["purchase_id"=>$purchase->purchase_id]),
+                pending: route('test.mercadopago.pendingProcess',["purchase_id"=>$purchase->purchase_id]),
+                failure: route('test.mercadopago.failureProcess',["purchase_id"=>$purchase->purchase_id]),
             );
             $payment->withAutoReturn();
 
@@ -49,8 +53,9 @@ class MercadoPagoController extends Controller
         }
 
         return view('test.mercadopago', [
-            'games' => $games,
+            'games' => $gamesArray,
             'preference' => $preference,
+            'purchasePendant'=>$purchase,
             // Pasamos la clave pública para poder agregarla en la conexión de JS.
             'mpPublicKey' => $payment->getPublicKey(),
         ]);
@@ -92,11 +97,22 @@ class MercadoPagoController extends Controller
 
     public function successProcess(Request $request)
     {
-        // En esta ruta podríamos mostrar un mensaje de éxito al usuario de que su compra
-        // fue realizada con éxito.
-        // Vamos a recibir en el query string varios datos sobre la operación en Mercado Pago,
-        // como id de operación.
-        dd($request->query);
+        
+        $purchase=$request->purchase_id;
+        $userPurchase= Purchase::findOrFail($purchase);
+        $userPurchase->update(['status'=>'confirmada']);
+
+        // // En esta ruta podríamos mostrar un mensaje de éxito al usuario de que su compra
+        // // fue realizada con éxito.
+        // // Vamos a recibir en el query string varios datos sobre la operación en Mercado Pago,
+        // // como id de operación.
+        // // dd($request->query);
+        return redirect()
+                ->route('games')
+                ->with('feedback', [
+                    'message' => 'Compra realizada con éxito',
+                    'alert' => 'success',
+                ]);
     }
 
     public function pendingProcess(Request $request)
@@ -106,6 +122,21 @@ class MercadoPagoController extends Controller
 
     public function failureProcess(Request $request)
     {
-        dd($request->query);
+        $purchase=$request->purchase_id;
+        // $userPurchase= Purchase::findOrFail($purchase);
+        // $userPurchase->update(['status'=>'confirmada']);
+
+        // // En esta ruta podríamos mostrar un mensaje de éxito al usuario de que su compra
+        // // fue realizada con éxito.
+        // // Vamos a recibir en el query string varios datos sobre la operación en Mercado Pago,
+        // // como id de operación.
+        // // dd($request->query);
+        return redirect()
+                ->route('cart.index')
+                ->with('feedback', [
+                    'message' => 'Compra fallida. Inténtelo de nuevo.',
+                    'alert' => 'danger',
+                ]);
+        // dd($request->query);
     }
 }

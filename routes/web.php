@@ -115,7 +115,7 @@ Route::get('/carrito', [\App\Http\Controllers\PurchaseController::class,"viewCar
 
 Route::get('test/mercadopago', [\App\Http\Controllers\MercadoPagoController::class, 'show'])
 ->name('test.mercadopago.show');
-Route::get('test/mercadopago/v2', [\App\Http\Controllers\MercadoPagoController::class, 'showV2'])
+Route::post('pago/mercadopago', [\App\Http\Controllers\MercadoPagoController::class, 'showV2'])
 ->name('test.mercadopago.show.v2');
 Route::get('test/mercadopago/success', [\App\Http\Controllers\MercadoPagoController::class, 'successProcess'])
 ->name('test.mercadopago.successProcess');

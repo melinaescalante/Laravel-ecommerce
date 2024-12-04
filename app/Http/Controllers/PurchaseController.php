@@ -10,7 +10,7 @@ class PurchaseController extends Controller
     public function index()
     {
         $allUsers = Purchase::all();
-        var_dump($allUsers);
+        // var_dump($allUsers);
         return view('users', [
             'users' => $allUsers,
         ]);
@@ -22,9 +22,9 @@ class PurchaseController extends Controller
         $gamesEncode = [];
         $newGames = [];
         $game = Game::findOrFail($id);
-        if ($userId) {
-            $purchasePendant = Purchase::where('user_id', '=', $userId)
-                ->where('status', '=', 'pendiente')->firstOrFail();
+        $purchasePendant = Purchase::where('user_id', '=', $userId)
+            ->where('status', '=', 'pendiente')->first();
+        if ($purchasePendant) {
             $newGames = json_decode($purchasePendant->games);
             array_push($newGames, $id);
             $gamesEncode = json_encode($newGames);
@@ -43,14 +43,14 @@ class PurchaseController extends Controller
             ];
             $purchase = Purchase::create($purchaseData);
         }
-        if ($sourcePage === 'cart') {
+        if ($sourcePage == 'cart') {
             return redirect()
                 ->route('cart.index')
                 ->with('feedback', [
                     'message' => 'El juego se agregó correctamente al carrito.',
                     'alert' => 'success',
                 ]);
-        } elseif ($sourcePage === 'games') {
+        } elseif ($sourcePage == 'games') {
             return redirect()
                 ->route('games')
                 ->with('feedback', [
@@ -78,6 +78,16 @@ class PurchaseController extends Controller
             } else {
                 $gamesEncode = [];
             }
+            if (count($gamesEncode) == 0) {
+                $purchasePendant->delete();
+                return redirect()
+                    ->route('cart.index')
+                    ->with('feedback', [
+                        'message' => 'Se ha eliminado tu carrito.',
+                        'alert' => 'warning',
+                    ]);
+
+            }
             $purchasePendant->update([
                 'games' => $gamesEncode,
                 'amount' => $purchasePendant->amount - $game->price,
@@ -94,8 +104,11 @@ class PurchaseController extends Controller
     public function viewCart()
     {
         $userId = auth()->id();
+        $purchasePendant = [];
+        $gamesWithQuantities = [];
+        $games = [];
         $purchasePendant = Purchase::where('user_id', '=', $userId)
-            ->where('status', '=', 'pendiente')->firstOrFail();
+            ->where('status', '=', 'pendiente')->first();
         if ($purchasePendant) {
             $gameIds = json_decode($purchasePendant->games) ?? [];
 
@@ -106,20 +119,26 @@ class PurchaseController extends Controller
             $games = Game::whereIn('id_game', array_keys($gamesGroupedArray))
 
                 ->get();
-
-
-            $gamesWithQuantities = $games->map(function ($game) use ($gamesGroupedArray) {
+            $gamesWithQuantities = [];
+            $totalAmount = 0;
+            foreach ($games as $game) {
                 $quantity = $gamesGroupedArray[$game->id_game];
-                return [
+                $subtotal = $game->price * $quantity;
+                $totalAmount += $subtotal;
+
+                $gamesWithQuantities[] = [
                     'game' => $game,
                     'quantity' => $quantity,
-                    'total_price' => $game->price * $quantity,
+                    'total_price' => $subtotal,
                 ];
-            });
-     
-        }
-     
+            }
+            $purchasePendant->update([
+                'amount' => $totalAmount,
+            ]);
+        } else {
+            $purchasePendant = [];
 
+        }
         return view('cart.index', [
             'purchasePendant' => $purchasePendant,
             'games' => $games,

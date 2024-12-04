@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row margin">
         <div class="col-12">
-            <h2 class="mb-3 mt-4">Prueba de Integración con Mercado Pago</h2>
+            <h2 class="mb-3 mt-4">Pago con Mercado Pago</h2>
             <table class="table table-bordered table-striped mb-3">
                 <thead>
                     <tr>
@@ -21,17 +21,22 @@
                 <tbody>
                     @foreach($games as $game)
                     <tr>
-                        <td>{{ $game->title }}</td>
-                        <td>${{ $game->price }}</td>
-                        <td>1</td>
-                        <td>${{ $game->price }}</td>
+                        <td>{{ $game->game->title }}</td>
+                        <td>${{ $game->game->price }}</td>
+                        <td>{{ $game->quantity }}</td>
+                        <td>${{ $game->game->price * $game->quantity }}</td>
                     </tr>
                     @endforeach
-                    <tr>
-                        <td colspan="3"><b>TOTAL:</b></td>
-                        <td><b>${{ $games->sum('price') }}</b></td>
-                    </tr>
+                    <!--  -->
                 </tbody>
+                <tfoot>
+                    <tr class="fs-5 border">
+                        <td colspan="3" class="text-end fw-bold py-2">Total:</td>
+                        <td class="text-start fw-bold text-success">
+                            ${{ $purchasePendant->amount}}
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
             <div id="mercadopago-button"></div>
 
