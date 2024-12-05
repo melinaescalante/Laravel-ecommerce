@@ -32,9 +32,11 @@
                     @guest
                         <li class="nav-item">
                             <x-navlink route="login">Iniciar Sesión</x-navlink>
-
-                            <!-- <a class="nav-link" href="{{route('login')}}">Iniciar Sesión</a> -->
-
+                            
+                            
+                        </li>
+                        <li class="nav-item">
+                            <x-navlink route="singUp">Registro</x-navlink>
                         </li>
                     @else
                         <x-navlink route="profile">Mi perfil</x-navlink>

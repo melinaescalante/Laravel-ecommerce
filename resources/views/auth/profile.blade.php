@@ -31,54 +31,62 @@
                         </form>
                     </div>
                 </li>
-              
+
             </ul>
         </div>
-        @if (!empty($purchases))
+        @if (($purchases))
+        
             <h2 class="mx-auto">Mis compras</h2>
             <div class="d-flex flex-wrap gap-2">
                 @foreach ($purchases as $purchase)
-                    <div class="card " style="width: 25rem;">
-                        <div class="card-header"  style="background-color:#008b8b42; ">
-                            Orden de compra: <strong>
-
-                                #{{ $purchase["purchase"]->purchase_id}}
-                            </strong>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                Fecha de emisión: {{ $purchase['purchase']->release_date }}
-                            </li>
-                            <li class="list-group-item">
-                                Estado: {{ $purchase['purchase']->status }}
-                            </li>
-                            <li class="list-group-item">
-
-                                Juegos:
-                                <ul>
-                                    @foreach ($purchase['games'] as $game)
-                                        <li>
-
-                                            <strong>{{$game["game"]["title"] 
-                                                                                                                    }}</strong> *
+                <!-- {{$purchase["purchase"]->purchase_id}} -->
+                @if (isset($purchase["purchase"]->purchase_id))
+                
+                <div class="card " style="width: 25rem;">
+                    <div class="card-header" style="background-color:#008b8b42; ">
+                        Orden de compra: <strong>
+                            
+                            #{{ $purchase["purchase"]->purchase_id}}
+                        </strong>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            Fecha de emisión: {{ $purchase['purchase']->release_date }}
+                        </li>
+                        <li class="list-group-item">
+                            Estado: {{ $purchase['purchase']->status }}
+                        </li>
+                        <li class="list-group-item">
+                            
+                            Juegos:
+                            
+                            <ul>
+                                @foreach ($purchase['games'] as $game)
+                                <li>
+                                    
+                                    <strong>{{$game["game"]["title"] 
+                                                                                                                                }}</strong>
+                                            *
                                             {{$game["quantity"]}}
                                         </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                            <li class="list-group-item fs-5">
-                                Monto final: <span style="color:darkcyan; ">{{$purchase['purchase']->amount}}</span> 
-                            </li>
-
-
-
-                    </div>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                <li class="list-group-item fs-5">
+                                    Monto final: <span style="color:darkcyan; ">{{$purchase['purchase']->amount}}</span>
+                                </li>
+                                
+                                
+                                
+                            </div>
+                            @else
+                            <p class="mt-4 fst-italic">Sin compras</p>
+                            @endif      
                 @endforeach
                 </ul>
             </div>
-        @else
-            <p>sin compras</p>
-        @endif
+            @endif      
+       
     </div>
 </div>
 @endsection

@@ -23,6 +23,7 @@ class UserController extends Controller
             ->select('users.*', 'users_have_purchases.*')
             // ->groupBy('users.id')
             ->get();
+
         // $allUsersWithPurchases->update(['games'=>json_decode($allUsersWithPurchases->games)]);
 // var_dump($allUsersWithPurchases)
         return view('users', [
@@ -30,12 +31,12 @@ class UserController extends Controller
             'userWithPurchases' => $allUsersWithPurchases
         ]);
     }
-    
+
     public function profile(Request $request)
     {
         $userAuth = auth()->id();
         $userData = User::findOrFail($userAuth);
-
+        $purchasesWithGames = [];
         // Obtiene las compras del usuario
         $userWithPurchases = DB::table('users')
             ->leftJoin('users_have_purchases', 'users.id', '=', 'users_have_purchases.user_id')
@@ -44,6 +45,7 @@ class UserController extends Controller
             ->get();
 
         $purchasesWithGames = $userWithPurchases->map(function ($purchase) {
+
             $gameIds = json_decode($purchase->games) ?? [];
 
             $gamesGrouped = collect($gameIds)->countBy();
@@ -59,11 +61,12 @@ class UserController extends Controller
                     'total_price' => $game->price * $quantity,
                 ];
             });
-
-            return [
-                'purchase' => $purchase,
-                'games' => $gamesWithQuantities,
-            ];
+                
+                return [
+                    'purchase' => $purchase,
+                    'games' => $gamesWithQuantities,
+                ];
+      
         });
 
 

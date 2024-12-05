@@ -82,9 +82,15 @@ Route::get('/mi-perfil', [\App\Http\Controllers\UserController::class,"profile"]
 Route::get('/iniciar-sesion', [\App\Http\Controllers\AuthController::class,"loginForm"])
 ->name('login');
 
-
 Route::post('/iniciar-sesion', [\App\Http\Controllers\AuthController::class,"loginProcess"])
 ->name('auth.login.process');
+
+Route::get('/registro', [\App\Http\Controllers\AuthController::class,"singUpForm"])
+->name('singUp');
+
+
+Route::post('/registro', [\App\Http\Controllers\AuthController::class,"singUpProcess"])
+->name('auth.singUp.process');
 
 Route::post('/cerrar-sesion', [\App\Http\Controllers\AuthController::class,"logoutProcess"])
 ->name('auth.logout.process')

@@ -78,7 +78,12 @@ class PurchaseController extends Controller
             } else {
                 $gamesEncode = [];
             }
-            if (count($gamesEncode) == 0) {
+            $purchasePendant->update([
+                'games' => $gamesEncode,
+                'amount' => $purchasePendant->amount - $game->price,
+            ]);
+            // var_dump($gamesCurrent);
+            if ( $gamesEncode== []) {
                 $purchasePendant->delete();
                 return redirect()
                     ->route('cart.index')
@@ -88,10 +93,7 @@ class PurchaseController extends Controller
                     ]);
 
             }
-            $purchasePendant->update([
-                'games' => $gamesEncode,
-                'amount' => $purchasePendant->amount - $game->price,
-            ]);
+
         }
         return redirect()
             ->route('cart.index')
