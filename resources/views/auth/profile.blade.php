@@ -9,7 +9,7 @@
     <h1 class="text-center mb-3 mt-5">Mi perfil</h1>
     <div class=" margin">
         <div class="card mx-auto" style="width: 22rem;">
-            <div class="card-header">
+            <div class="card-header" style="background-color:#008b8b42; ">
                 Información
             </div>
             <ul class="list-group list-group-flush">
@@ -31,7 +31,7 @@
                         </form>
                     </div>
                 </li>
-                <!-- <li class="list-group-item">A third item</li> -->
+              
             </ul>
         </div>
         @if (!empty($purchases))
@@ -39,7 +39,7 @@
             <div class="d-flex flex-wrap gap-2">
                 @foreach ($purchases as $purchase)
                     <div class="card " style="width: 25rem;">
-                        <div class="card-header">
+                        <div class="card-header"  style="background-color:#008b8b42; ">
                             Orden de compra: <strong>
 
                                 #{{ $purchase["purchase"]->purchase_id}}
@@ -67,7 +67,7 @@
                                 </ul>
                             </li>
                             <li class="list-group-item fs-5">
-                                Monto final: {{$purchase['purchase']->amount}}
+                                Monto final: <span style="color:darkcyan; ">{{$purchase['purchase']->amount}}</span> 
                             </li>
 
 

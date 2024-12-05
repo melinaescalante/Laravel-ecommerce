@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Prueba de integración mercadopago')
+@section('title', 'Pago con Mercado Pago')
 
 @section('content')
 

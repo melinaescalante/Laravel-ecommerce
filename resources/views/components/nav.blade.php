@@ -5,7 +5,7 @@
                 <span class="navbar-toggler-icon">
                 </span>
             </button>
-            <div class="collapse navbar-collapse d-flex align-items-center gap-5" id="navMain">
+            <div class="collapse navbar-collapse d-flex align-items-center gap-4" id="navMain">
                 <x-navlink route="home" class="navbar-brand">Games</x-navlink>
                 <ul class="navbar-nav d-flex align-items-center">
                     <li class="nav-item">
@@ -24,7 +24,7 @@
                     @auth
                         @if (auth()->user()->email === 'meliescalantee@gmail.com')
                             <x-navlink route="users">Usuarios</x-navlink>
-                            <x-navlink route="users">Dashboard</x-navlink>
+                            <x-navlink route="dashboard">Dashboard</x-navlink>
 
 
                         @endif

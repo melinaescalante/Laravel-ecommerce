@@ -30,21 +30,27 @@
                                 </tr>
 
                                 @foreach ($users as $user)
+                                    <!-- {{$users}} -->
                                     <tr>
                                         <td class="align-top">{{ $user->id }}</td>
 
                                         <td class="align-top">{{ $user->name }}</td>
                                         <td class="align-top">{{ $user->email }}</td>
                                         <td class="align-top">
-                                            @if (!empty($user->purchase_id))
+                                            @if (!empty($userWithPurchases))
+                                                @foreach ($userWithPurchases as $purchase)
+                                                    @if ($purchase->user_id == $user->id)
 
-                                            <div>
-                                                <p>Orden: # {{$user->purchase_id}}</p>
-                                                
-                                                <p>Juegos: {{$user->games}}</p>
-                                                <p>Monto: {{$user->amount}}</p>
-                                                <p>Estado: {{$user->status}}</p>
-                                            </div>
+                                                        <div class="border-bottom">
+                                                            <p>Orden: # {{$purchase->purchase_id}}</p>
+
+                                                            <p>Juegos: {{$purchase->games}}</p>
+                                                            <p>Monto: {{$purchase->amount}}</p>
+                                                            <p>Estado: <strong>{{$purchase->status}}</strong></p>
+                                                        </div>
+                                                        @endif
+                                                        
+                                                @endforeach
                                             @endif
                                         </td>
                                         <td class="mt-2 mb-2">

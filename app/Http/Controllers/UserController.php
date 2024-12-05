@@ -11,18 +11,26 @@ class UserController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+        // Valida el email del usuario
+        if ($user->email !== 'meliescalantee@gmail.com') {
+            return redirect()->route('home');
+        }
         $users = User::all();
         $allUsersWithPurchases = DB::table('users')
             ->leftJoin('users_have_purchases', 'users.id', '=', 'users_have_purchases.user_id')
             ->select('users.*', 'users_have_purchases.*')
-            ->groupBy('users.id')
+            // ->groupBy('users.id')
             ->get();
-
-
+        // $allUsersWithPurchases->update(['games'=>json_decode($allUsersWithPurchases->games)]);
+// var_dump($allUsersWithPurchases)
         return view('users', [
-            'users' => $allUsersWithPurchases,
+            'users' => $users,
+            'userWithPurchases' => $allUsersWithPurchases
         ]);
     }
+    
     public function profile(Request $request)
     {
         $userAuth = auth()->id();
@@ -57,7 +65,7 @@ class UserController extends Controller
                 'games' => $gamesWithQuantities,
             ];
         });
-       
+
 
         return view('auth.profile', [
             'userData' => $userData,

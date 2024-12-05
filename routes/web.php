@@ -13,6 +13,9 @@ Route::get('/blogs', [\App\Http\Controllers\BlogController::class,"index"])
 Route::get('/usuarios', [\App\Http\Controllers\UserController::class,"index"])
 ->name('users')
 ->middleware('auth');
+Route::get('/dashboard', [\App\Http\Controllers\HomeController::class,"dashboard"])
+->name('dashboard')
+->middleware('auth');
 
 Route::post('/usuario/editar-nombre', [\App\Http\Controllers\UserController::class,"editProcessName"])
 ->name('user.edit.name.process')
