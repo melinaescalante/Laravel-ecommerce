@@ -6,4 +6,4 @@ Turno: Mañana
 Comisión: DWM4AP
 Apellido y nombre: Melina Escalante
 Docente: Carlos Ferrer
-Carácter de entrega:2er parcial.
+Carácter de entrega:Final.

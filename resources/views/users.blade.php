@@ -22,11 +22,6 @@
                                     <th>Compras</th>
 
 
-                                    @auth
-                                        @if (auth()->user()->email === 'meliescalantee@gmail.com')
-                                            <th>Acciones</th>
-                                        @endif
-                                    @endauth
                                 </tr>
 
                                 @foreach ($users as $user)
@@ -53,27 +48,7 @@
                                                 @endforeach
                                             @endif
                                         </td>
-                                        <td class="mt-2 mb-2">
-
-                                            @auth
-                                                @if (auth()->user()->email === 'meliescalantee@gmail.com')
-                                                    <div class="d-flex justify-content-around">
-
-
-                                                        <a href="#" class="btn btn-warning">Editar</a>
-                                                        <form action="#" method="post">
-
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <input type="submit" value="Eliminar"
-                                                                onclick="return confirm('Está seguro de borar la película?')"
-                                                                class="btn btn-danger">
-                                                        </form>
-
-                                                    </div>
-                                                @endif
-                                            @endauth
-                                        </td>
+                                        
                                     </tr>
                                 @endforeach
                             </thead>

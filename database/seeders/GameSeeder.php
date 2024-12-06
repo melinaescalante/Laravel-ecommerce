@@ -181,10 +181,12 @@ class GameSeeder extends Seeder
         ]);
         DB::table('users_have_purchases')->insert([
             ['user_id' => 1, 'games' => json_encode([1]),'status'=>'pendiente','release_date'=>'2024-12-20', 'amount' => 59000],
+            ['user_id' => 2, 'games' => json_encode([2,2,2,2,2,4,4]),'status'=>'confirmada','release_date'=>'2024-12-01', 'amount' => 31000],
+            ['user_id' => 2, 'games' => json_encode([2]),'status'=>'pendiente','release_date'=>'2024-12-01', 'amount' => 3000],
             
         ]);
 
-        // DB::table('users_have_purchases')->truncate();
+   
 
     }
 }
