@@ -36,11 +36,8 @@ class HomeController extends Controller
             return redirect()->route('home');
         }
         $userPurchase = Purchase::select('games')->where('status', '=', 'confirmada')->get();
-        var_dump($userPurchase);
         if (count($userPurchase) > 0) {
-            # code...
-
-            $games = Game::all();
+                    $games = Game::all();
             $idsGamesNotSaled = [];
             $gamesNotSaled = [];
             json_decode($userPurchase);
