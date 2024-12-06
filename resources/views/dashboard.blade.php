@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 @else
-                <p class="text-center mx-auto">Sin registros aún sobre juegos más vendidos porque no hay compras.</p>
+                <p class="text-center mx-auto">Sin registros aún sobre juegos más vendidos porque no hay compras o muchos registros.</p>
 
             @endif
       
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 @else
-                <p class="text-center mx-auto">Sin registros aún sobre juegos menos veces no vendidos porque no hay compras.</p>
+                <p class="text-center mx-auto">Sin registros aún sobre juegos menos veces no vendidos porque no hay compras o muchos registros.</p>
 
             @endif
         
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             @else
-                <p class="text-center mx-auto">Sin registros aún sobre juegos no vendidos porque no hay compras.</p>
+                <p class="text-center mx-auto">Sin registros aún sobre juegos no vendidos porque no hay compras o muchos registros.</p>
 
             @endif
           
