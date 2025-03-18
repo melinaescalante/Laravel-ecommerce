@@ -41,7 +41,7 @@ php artisan db:seed
  ``` bash
 php artisan storage:link
 ```
-## Imágenes interfaz:
+## Interface images:
 ### **Home**
 ![image](https://github.com/user-attachments/assets/cdf6b278-1998-460c-8981-581742c6d059)
 
